@@ -21,5 +21,37 @@
       "partner2": "2026-06-24"
     }
   },
-  "photos": []
+  "photos": [],
+  "vapidKeys": {
+    "publicKey": "BA9lyvZEB6exjJtZdQS051y11D8UXE2cdetrjq2jK-1sT-SRJAl68n1yx1vrjc4FGD97E0XytztiJzCo7-arKCU",
+    "privateKey": "LLTwtLiOwyO2hEBDaQOffZ_tsyx1Ltq_501m-8qvcD4"
+  },
+  "hydrationSchedules": {
+    "partner1": {
+      "date": "2026-06-24",
+      "times": [
+        1782376500000,
+        1782397020000,
+        1782404820000
+      ],
+      "fired": [
+        false,
+        false,
+        false
+      ]
+    },
+    "partner2": {
+      "date": "2026-06-24",
+      "times": [
+        1782375300000,
+        1782387240000,
+        1782405060000
+      ],
+      "fired": [
+        false,
+        false,
+        false
+      ]
+    }
+  }
 }

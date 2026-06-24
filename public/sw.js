@@ -1,4 +1,4 @@
-const CACHE_NAME = 'mehin-v1';
+const CACHE_NAME = 'mehin-v2';
 const ASSETS_TO_CACHE = [
   '/',
   '/index.html',
@@ -28,23 +28,61 @@ self.addEventListener('activate', (event) => {
   );
 });
 
+// Fetch handler - bypass for APIs
 self.addEventListener('fetch', (event) => {
   const url = new URL(event.request.url);
-  
-  // Do not cache API calls or WebSockets
   if (url.pathname.startsWith('/api') || url.pathname.startsWith('/ws')) {
     return;
   }
-
   event.respondWith(
     caches.match(event.request).then((cachedResponse) => {
-      if (cachedResponse) {
-        return cachedResponse;
+      return cachedResponse || fetch(event.request).catch(() => caches.match('/index.html'));
+    })
+  );
+});
+
+// Handle Push Notifications from Backend (Works when app is closed!)
+self.addEventListener('push', (event) => {
+  let data = { title: 'Mehin', body: 'You have a new alert!' };
+  
+  if (event.data) {
+    try {
+      data = event.data.json();
+    } catch (e) {
+      data = { title: 'Mehin', body: event.data.text() };
+    }
+  }
+
+  const options = {
+    body: data.body,
+    icon: data.icon || '/mehin_icon.png',
+    badge: '/mehin_icon.png',
+    vibrate: [200, 100, 200],
+    data: {
+      url: '/'
+    }
+  };
+
+  event.waitUntil(
+    self.registration.showNotification(data.title, options)
+  );
+});
+
+// Handle Notification Clicks (Focuses/Opens app)
+self.addEventListener('notificationclick', (event) => {
+  event.notification.close();
+  
+  event.waitUntil(
+    clients.matchAll({ type: 'window', includeUncontrolled: true }).then((windowClients) => {
+      for (let i = 0; i < windowClients.length; i++) {
+        const client = windowClients[i];
+        if (client.url === '/' && 'focus' in client) {
+          return client.focus();
+        }
       }
-      return fetch(event.request).catch(() => {
-        // Fallback for offline if necessary
-        return caches.match('/index.html');
-      });
+      if (clients.openWindow) {
+        return clients.openWindow('/');
+      }
     })
   );
 });
