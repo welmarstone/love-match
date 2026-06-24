@@ -1,0 +1,25 @@
+{
+  "locations": {
+    "partner1": {
+      "lat": 50.0755,
+      "lng": 14.4378,
+      "name": "Prague",
+      "timestamp": 1782218302987
+    },
+    "partner2": {
+      "lat": 50.10379,
+      "lng": 14.390696,
+      "name": "Cosenza",
+      "timestamp": 1782310905121
+    }
+  },
+  "streak": {
+    "count": 1,
+    "lastStreakDate": "2026-06-24",
+    "taps": {
+      "partner1": "2026-06-24",
+      "partner2": "2026-06-24"
+    }
+  },
+  "photos": []
+}
